@@ -5,6 +5,7 @@ public class BackTSP{
 
     private int V;
     private Graph graph;
+    private final int INF = 1<<20;
 
     public BackTSP(Graph graph, int size){
 
@@ -40,11 +41,13 @@ public class BackTSP{
 
         if(curr == start && cont == 2 && path.size() > V) return new pair<>(cost, path);
 
-        pair<Integer, List<Integer>> rslt = new pair<>(1<<30 | 1<<29, new ArrayList<>());
+        pair<Integer, List<Integer>> rslt = new pair<>(INF, new ArrayList<>());
 
-        for(edge e: graph.getAdjacent(curr))
+        for(int i = 0; i<V; i++)
 
-            if(!TEST(msk, e.next)) rslt = min(rslt, findMin(start, e.next, msk, new ArrayList<>(path), cost + e.cost, cont));
+            if(graph.getCost(curr, i) != INF && !TEST(msk, i)) 
+
+                rslt = min(rslt, findMin(start, i, msk, new ArrayList<>(path), cost + graph.getCost(curr, i), cont));
 
         return rslt;
 
@@ -53,8 +56,8 @@ public class BackTSP{
 
     private pair<Integer, List<Integer>> solveTSP(){
 
-        pair<Integer, List<Integer>> rslt = new pair<>(1<<30 | 1<<29, new ArrayList<>());
-        for(int i = 1; i<=V; i++) rslt = min(rslt, findMin(i, i, 0, new ArrayList<>(), 0, 0));
+        pair<Integer, List<Integer>> rslt = new pair<>(INF, new ArrayList<>());
+        for(int i = 0; i<V; i++) rslt = min(rslt, findMin(i, i, 0, new ArrayList<>(), 0, 0));
         return rslt;
 
     }
@@ -64,10 +67,11 @@ public class BackTSP{
 
         pair<Integer, List<Integer>> rslt = solveTSP();
         System.out.println(rslt.first);
-        for(Integer i: rslt.second) System.out.print(i + " ");
+        for(Integer i: rslt.second) System.out.print(i+1 + " ");
         System.out.println();
 
     }
+
 
 
 
