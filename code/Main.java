@@ -26,13 +26,12 @@ public class Main{
             int v1 = Integer.parseInt(tokenizer.nextToken());
             int v2 = Integer.parseInt(tokenizer.nextToken());
             int cost = Integer.parseInt(tokenizer.nextToken());
-            graph.addEdge(v1, v2, cost);
+            graph.addEdge(--v1, --v2, cost);
 
         }
         
         BackTSP tsp = new BackTSP(graph, V);
         tsp.showBackTSP();
-
     }
 
 }
