@@ -10,6 +10,18 @@ public class pair<t1, t2>{
         first = x;
         second = y;
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(first, second);
+    }
+
+
+    public boolean equals(pair<Integer, Integer> obj) {
+
+        return obj.first == first && obj.second == second;
+
+    }
     
 
 }
