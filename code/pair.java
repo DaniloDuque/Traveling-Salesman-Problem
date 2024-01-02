@@ -16,11 +16,12 @@ public class pair<t1, t2>{
         return Objects.hash(first, second);
     }
 
-
-    public boolean equals(pair<Integer, Integer> obj) {
-
-        return obj.first == first && obj.second == second;
-
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        pair<?, ?> pair = (pair<?, ?>) obj;
+        return Objects.equals(first, pair.first) && Objects.equals(second, pair.second);
     }
     
 
