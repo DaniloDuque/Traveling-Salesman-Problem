@@ -25,19 +25,24 @@ public class entityTSP{
     public entityTSP(entityTSP f1, entityTSP f2, int size, Graph G){
 
         this.size = size;
-
-        int crossIndex = random.nextInt(size);
+        int crossStart = random.nextInt(size);
+        int crossEnd = (crossStart + random.nextInt(size - 1) + 1)%size;
         int msk = 0;
 
-        for(int i = 0; i<crossIndex; msk = SET(msk, f1.tour.get(i++))) tour.add(f1.tour.get(i));
+        for (int i = crossStart; i != crossEnd; i = (i + 1)%size) {
+            tour.add(f1.tour.get(i));
+            msk = SET(msk, f1.tour.get(i));
+        }
 
-        for(int i = 0; i<size; i++) if(!TEST(msk, f2.tour.get(i))) tour.add(f2.tour.get(i));
+        for (int i = 0; i < size; i++) {
+            int city = f2.tour.get((crossEnd + i) % size);
+            if (!TEST(msk, city)) tour.add(city);
+        }
 
-        if(random.nextInt(100) < 5) mutation();
-
+        if (random.nextInt(100) < 5) mutation();
         fitness(G);
-
     }
+
 
 
 

@@ -44,7 +44,7 @@ public class GeneticTSP{
 
         for(entityTSP i: gen) if(i.fitness < curr.fitness) curr = i;
 
-        if(best.equals(curr)) noChanges++;
+        noChanges = (best.equals(curr))? noChanges + 1: 0;
 
         best = curr;
 
