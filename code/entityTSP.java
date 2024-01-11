@@ -2,6 +2,8 @@ import java.util.*;
 
 
 
+
+
 public class entityTSP{
 
     public ArrayList<Integer> tour = new ArrayList<>();
@@ -62,12 +64,32 @@ public class entityTSP{
 
     }
 
+    
+
+    @Override
+    public boolean equals(Object obj){
+
+        entityTSP curr = (entityTSP) obj;
+
+        for(int i = 0; i<size; i++) if(tour.get(i) != curr.tour.get(i)) return false;
+    
+        return true;
+
+
+    }
+
     public void showTour(){
 
         for(int i: tour) System.out.println(i + " ");
         System.out.println("fitness: " + fitness);
 
     }
+
+
+
+
+
+
 
 
 

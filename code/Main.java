@@ -30,8 +30,9 @@ public class Main{
 
         }
         
-        BackTSP tsp = new BackTSP(graph, V);
-        tsp.showBackTSP();
+        GeneticTSP x = new GeneticTSP(V, graph);
+        x.showGeneticTSP();
+       
     }
 
 }

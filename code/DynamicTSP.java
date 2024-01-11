@@ -1,5 +1,8 @@
 import java.util.*;
 
+
+
+
 public class DynamicTSP{
 
     private Graph graph;
@@ -11,14 +14,13 @@ public class DynamicTSP{
 
 
 
-    public DynamicTSP(Graph graph, int V){
+    public DynamicTSP(int V, Graph graph){
 
         this.graph = graph;
         this.V = V;
         END_STATE = (1<<V)-1;
 
     }
-
 
     private boolean TEST(int msk, int i){
         return (msk&(1<<i)) != 0;
@@ -27,8 +29,6 @@ public class DynamicTSP{
     private int SET(int msk, int i){
         return msk|(1<<i);
     }
-
-
 
 
     private int findMinCost(int i, int state, HashMap<pair<Integer, Integer>, Integer> dp, HashMap<pair<Integer, Integer>, Integer> parent){
