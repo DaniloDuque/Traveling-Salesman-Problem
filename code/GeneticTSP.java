@@ -5,47 +5,44 @@ import java.util.*;
 public class GeneticTSP{
 
 
-    private ArrayList<entityTSP> gen = new ArrayList<>(), newGen = new ArrayList<>();
+    private entityTSP gen[];
+    private PriorityQueue<entityTSP> heap = new PriorityQueue<>();
     private int genSize, V, noChanges = 0;
-    private long genSum = 0;
+    private double genSum = 0;
     private Random random = new Random();
     private entityTSP best;
     private Graph G;
 
 
+
     public GeneticTSP(int V, Graph G){
 
         this.V = V;
-        genSize = V*V;
+        genSize = V<<2;
+        gen = new entityTSP[genSize];
         this.G = G;
-        for(int i = 0; i<genSize; i++) gen.add(new entityTSP(V, G));
-        best = new entityTSP(V, G);
+        for(int i = 0; i<genSize; i++){
+            gen[i] = new entityTSP(V, G);
+            heap.add(gen[i]);
+        }best = heap.peek();
 
     }
 
 
 
-
-    private entityTSP cross(entityTSP f1, entityTSP f2){
-
-        return new entityTSP(f1, f2, V, G);
-
-    }
+    
 
     private double fitness(entityTSP i){
-
         return genSum/i.fitness;
-
     }
 
     private void updateBest(){
 
-        entityTSP curr = best;
-
+        genSum = 0.0;
+        for(entityTSP i: gen) genSum += fitness(i);
+        entityTSP curr = gen[0];
         for(entityTSP i: gen) if(i.fitness < curr.fitness) curr = i;
-
         noChanges = (best.equals(curr))? noChanges + 1: 0;
-
         best = curr;
 
     }
@@ -53,32 +50,30 @@ public class GeneticTSP{
 
     private entityTSP findTour(){
 
-        if(noChanges > V*V) return best;
+        while(noChanges < V*V){
+                        
+            for(int i = 0; i<genSize; i++){
 
-        genSum = 0;
-        for(entityTSP i: gen) genSum += i.fitness;
-        updateBest();
+                double target1 = random.nextDouble() * genSum, target2 = random.nextDouble() * genSum;
+                double cumulativeFit = 0.0;
+                entityTSP f1 = null, f2 = null;
 
-        newGen.clear(); newGen.add(best);
+                int j = 0;
+                while(cumulativeFit < target1 && j < genSize) cumulativeFit += fitness(gen[j++]);
+                f1 = gen[Math.max(j-1, 0)];
 
-        for(int i = 1; i<genSize; i++){
+                cumulativeFit = j = 0;
+                while(cumulativeFit < target2 && j < genSize) cumulativeFit += fitness(gen[j++]);
+                f2 = gen[Math.max(j-1, 0)];
 
-            double target1 = random.nextDouble() * genSum, target2 = random.nextDouble() * genSum;
-            double cumulativeFit = 0.0;
-            entityTSP f1 = null, f2 = null;
+                heap.add(gen[i]);
+                heap.add(new entityTSP(f1, f2, V, G));
 
-            int j = 0;
-            while(cumulativeFit < target1 && j < gen.size()) cumulativeFit += fitness(gen.get(j++));
-            f1 = gen.get(j-1);
+            }for(int i = 0; i<genSize; i++) gen[i] = heap.poll();
+            updateBest();
+            heap.clear();
 
-            cumulativeFit = j = 0;
-            while(cumulativeFit < target2 && j < gen.size()) cumulativeFit += fitness(gen.get(j++));
-            f2 = gen.get(j-1);
-
-            newGen.add(cross(f1, f2));
-
-        }gen = new ArrayList<>(newGen);
-        return findTour();
+        }return best;
 
     }
 
@@ -86,7 +81,7 @@ public class GeneticTSP{
     public void showGeneticTSP(){
 
         entityTSP bst = findTour();
-        System.out.println(bst.fitness);
+        System.out.println("cost: " + bst.fitness);
         for(int i: bst.tour) System.out.print(i+1 + " ");
         System.out.println(bst.tour.get(0) + 1);
 

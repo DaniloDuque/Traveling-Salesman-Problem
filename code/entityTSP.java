@@ -3,8 +3,7 @@ import java.util.*;
 
 
 
-
-public class entityTSP{
+public class entityTSP implements Comparable<entityTSP>{
 
     public ArrayList<Integer> tour = new ArrayList<>();
     private int size;
@@ -57,29 +56,26 @@ public class entityTSP{
 
 
     private void fitness(Graph G){
-
-        for(int i = 0; i<size-1; i++) fitness += G.getCost(tour.get(i), tour.get(i+1));
-        fitness += G.getCost(tour.get(size-1), tour.get(0));
-
+        for(int i = 0; i<size; i++) fitness += G.getCost(tour.get(i), tour.get((i+1)%size));
     }
 
     private void mutation(){
-
         Collections.swap(tour, random.nextInt(size), random.nextInt(size));
-
     }
 
+
     
+    @Override
+    public int compareTo(entityTSP x){
+        return Long.compare(fitness, x.fitness);
+    }
 
     @Override
     public boolean equals(Object obj){
 
         entityTSP curr = (entityTSP) obj;
-
         for(int i = 0; i<size; i++) if(tour.get(i) != curr.tour.get(i)) return false;
-    
         return true;
-
 
     }
 
