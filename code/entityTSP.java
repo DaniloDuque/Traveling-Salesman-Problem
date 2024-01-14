@@ -20,6 +20,7 @@ public class entityTSP implements Comparable<entityTSP>{
 
     }
 
+    
 
     public entityTSP(entityTSP f1, entityTSP f2, int size, Graph G){
 
@@ -36,10 +37,10 @@ public class entityTSP implements Comparable<entityTSP>{
         for (int i = 0; i < size; i++) {
             int city = f2.tour.get((crossEnd + i) % size);
             if (!TEST(msk, city)) tour.add(city);
-        }
 
-        if (random.nextInt(100) < 5) mutation();
+        }if (random.nextInt(100) < 5) mutation();
         fitness(G);
+
     }
 
 
@@ -48,7 +49,6 @@ public class entityTSP implements Comparable<entityTSP>{
     private boolean TEST(int msk, int i){
         return (msk&(1<<i)) != 0;
     }
-
     private int SET(int msk, int i){
         return msk|(1<<i);
     }
@@ -78,19 +78,6 @@ public class entityTSP implements Comparable<entityTSP>{
         return true;
 
     }
-
-    public void showTour(){
-
-        for(int i: tour) System.out.println(i + " ");
-        System.out.println("fitness: " + fitness);
-
-    }
-
-
-
-
-
-
 
 
 
