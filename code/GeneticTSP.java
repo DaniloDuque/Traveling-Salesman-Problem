@@ -19,7 +19,7 @@ public class GeneticTSP{
 
         this.V = V;
         this.G = G; 
-        genSize = V*V;
+        genSize = V;
         gen = new entityTSP[genSize];
         for(int i = 0; i<genSize; i++) gen[i] = new entityTSP(V, G);
         best = new entityTSP(gen[0], gen[1], V, G);
@@ -31,16 +31,17 @@ public class GeneticTSP{
     
 
     private double fitness(entityTSP i){
-        return (genSum/(i.fitness));
+        return genSum/i.fitness;
     }
 
     private void updateBest(){
 
         genSum = 0.0;
-        for(entityTSP i: gen) genSum += i.fitness;
         entityTSP curr = best;
-        for(entityTSP i: gen) if(i.fitness < curr.fitness) curr = i;
-        noChanges = (best.equals(curr))? noChanges + 1: 0;
+        for(entityTSP i: gen){
+            genSum += i.fitness;
+            if(i.fitness < curr.fitness) curr = i;
+        }noChanges = (best.equals(curr))? noChanges + 1: 0;
         best = curr;
 
     }
@@ -50,7 +51,7 @@ public class GeneticTSP{
 
     private entityTSP findTour(){
 
-        while(noChanges < V*V){
+        while(noChanges < (V*V*V)){
                         
             updateBest();
             for(int i = 0; i<genSize; i++){
@@ -80,7 +81,8 @@ public class GeneticTSP{
     public void showGeneticTSP(){
 
         entityTSP bst = findTour();
-        System.out.println("cost: " + bst.fitness);
+        System.out.println("Genetic cost: " + bst.fitness);
+        System.out.print("Genetic tour: ");
         for(int i: bst.tour) System.out.print(i+1 + " ");
         System.out.println(bst.tour.get(0) + 1);
 
