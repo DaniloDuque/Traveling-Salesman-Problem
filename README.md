@@ -50,7 +50,7 @@ This repository contains implementations of various algorithms to solve the Trav
 
 ## Documentation
 
-For detailed documentation, including algorithm explanations and usage instructions, refer to the [PDF documentation](documentation/TSP_Documentation.pdf) file in the repository.
+For detailed documentation, including algorithm explanations and usage instructions, refer to the [PDF documentation](DocumentationTSP.pdf) file in the repository.
 
 ## Contributing
 
