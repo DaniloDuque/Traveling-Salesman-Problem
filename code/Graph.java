@@ -4,7 +4,7 @@ class Graph{
 
     private int[][] adjacencyMatrix;
     private int size;
-    private final int INF = 1<<20;
+    private final int INF = (1<<20);
 
     public Graph(int size) {
         this.size = size;
@@ -12,6 +12,7 @@ class Graph{
         for(int i = 0; i<size; i++)
             for(int j = 0; j<size; j++)
                 adjacencyMatrix[i][j] = INF;
+
     }
 
     public void addEdge(int sourceId, int destinationId, int cost) {
@@ -23,5 +24,5 @@ class Graph{
         return adjacencyMatrix[sourceId][destinationId];
     }
         
-
+        
 }

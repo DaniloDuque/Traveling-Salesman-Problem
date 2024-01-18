@@ -12,11 +12,13 @@ public class GeneticTSP{
     private Random random = new Random();
     private entityTSP best;
     private Graph G;
+    private Object lock;
 
 
 
-    public GeneticTSP(int V, Graph G){
+    public GeneticTSP(int V, Graph G, Object lock){
 
+        this.lock = lock;
         this.V = V;
         this.G = G; 
         genSize = V;
@@ -81,10 +83,14 @@ public class GeneticTSP{
     public void showGeneticTSP(){
 
         entityTSP bst = findTour();
-        System.out.println("Genetic cost: " + bst.fitness);
-        System.out.print("Genetic tour: ");
-        for(int i: bst.tour) System.out.print(i+1 + " ");
-        System.out.println(bst.tour.get(0) + 1);
+        synchronized(lock){
+            
+            System.out.println("Genetic cost: " + bst.fitness);
+            System.out.print("Genetic tour: ");
+            for(int i: bst.tour) System.out.print(i+1 + " ");
+            System.out.println(bst.tour.get(0) + 1);
+
+        }
 
     }
 

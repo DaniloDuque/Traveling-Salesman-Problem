@@ -10,12 +10,13 @@ public class DynamicTSP{
     private int END_STATE;
     private int START;
     private final int INF = 1<<20;
-    private List<Integer> hamiltonianCycle = new ArrayList<>();
+    private ArrayList<Integer> hamiltonianCycle = new ArrayList<>();
+    private Object lock;
+    
 
+    public DynamicTSP(int V, Graph graph, Object lock){
 
-
-    public DynamicTSP(int V, Graph graph){
-
+        this.lock = lock;
         this.graph = graph;
         this.V = V;
         END_STATE = (1<<V)-1;
@@ -108,9 +109,15 @@ public class DynamicTSP{
 
     public void showDynamicTSP(){
 
-        System.out.println(solve());
-        for(Integer i: hamiltonianCycle) System.out.print(i+1 + " ");
-        System.out.println();
+        int min = solve();
+        synchronized (lock){
+
+            System.out.println("Dynamic cost: " + min);
+            System.out.print("Dynamic tour: ");
+            for(Integer i: hamiltonianCycle) System.out.print(i+1 + " ");
+            System.out.println();
+            
+        }
 
     }
 

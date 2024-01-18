@@ -30,8 +30,17 @@ public class Main{
 
         }
         
-        GeneticTSP x = new GeneticTSP(V, graph);
-        x.showGeneticTSP();
+        
+        Object lock = new Object();
+        GeneticTSP x = new GeneticTSP(V, graph, lock);
+        DynamicTSP y = new DynamicTSP(V, graph, lock);
+        BackTSP z = new BackTSP(V, graph, lock);
+        Thread threadX = new Thread(() -> x.showGeneticTSP());
+        Thread threadY = new Thread(() -> y.showDynamicTSP());
+        Thread threadZ = new Thread(() -> z.showBackTSP());
+        threadX.start();
+        threadY.start();
+        threadZ.start();
        
     }
 

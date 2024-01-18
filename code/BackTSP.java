@@ -8,9 +8,11 @@ public class BackTSP{
     private final int INF = 1<<20;
     private int START;
     private int END_STATE;
+    private Object lock;
 
-    public BackTSP(Graph graph, int size){
+    public BackTSP(int size, Graph graph, Object lock){
 
+        this.lock = lock;
         this.graph = graph;
         V = size;
         END_STATE = (1<<V)-1;
@@ -70,10 +72,13 @@ public class BackTSP{
     public void showBackTSP(){
 
         pair<Integer, List<Integer>> rslt = solveTSP();
-        System.out.println(rslt.first);
-        System.out.print(rslt.second.get(rslt.second.size()-1) + 1 + " ");
-        for(Integer i: rslt.second) System.out.print(i+1 + " ");
-        System.out.println();
+        synchronized (lock) {
+            System.out.println("Backtracking cost: " + rslt.first);
+            System.out.print("Backtracking tour: ");
+            System.out.print(rslt.second.get(rslt.second.size()-1) + 1 + " ");
+            for(Integer i: rslt.second) System.out.print(i+1 + " ");
+            System.out.println();
+        }
 
     }
 
